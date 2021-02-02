@@ -19,3 +19,9 @@
 -- 不需要多加个node
    this.map.node.x (错误)
 ```
+```
+-- 获取窗口size
+   let s=cc.winSize
+   s.width and s.height
+  ```
+
