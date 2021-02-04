@@ -41,5 +41,7 @@
 3.[edit]->[open image manager]->[image]->[import image]->选择一张图片（一个数字一张图片）->填写id（就是对应的ASCII码)
 4.主界面右边的选项一个都不要勾上
 5.[option]->[visualize]可以预览，如果width和height设置的太小就不能预览
-6.[option]->[save bitmap font as]保存成fnt文件
+6.[option]->[save bitmap font as]保存成fnt文件（还会附带一个文件，类型取决于textures设置)
+7.将生成的fnt文件和png文件一起拖入creator
+8.设置label属性，把[use system font]取消选中,然后拖动bf文件到font选项上
 ```
