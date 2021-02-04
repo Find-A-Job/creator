@@ -43,6 +43,23 @@
 3.在cretor面板中，将prefab拖入对应的脚本
 ```
 
+### 画菱形
+```
+        // 以pos为原点，oStep为步长，画直径为((2*tStep+1)*oStep)的方块圆
+        let getMoveRange = function(pos, oStep, tStep) {
+            let ap = []
+            for (let i = 0; i < tStep * 2 + 1; i++) {
+                for (let j = 0; j < tStep * 2 + 1; j++) {
+                    if (Math.abs(i - tStep) > Math.abs(Math.abs(j - tStep) - tStep)) {
+                        continue
+                    }  
+                    ap.push({ x: pos.x - (tStep - i) * oStep, y: pos.y + (tStep - j) * oStep })
+                }
+            }
+            return ap
+        }
+```
+
 ### bmFont使用方法
 ```
 1.打开[option]->[font settings]，设置一下size就行
