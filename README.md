@@ -25,6 +25,23 @@
    let s=cc.winSize
    s.width and s.height
   ```
+  
+### 预制节点prefab
+```
+1.在层级管理器中编辑好节点，然后拖入资源管理器，并删除层级管理器中的节点
+2.在脚本中引用
+        ...
+        moveCell: {
+            default: null,
+            type: cc.Prefab
+        },
+        ...
+        var map = this.map
+        var node = cc.instantiate(this.moveCell);
+        node.parent = map;
+        node.setPosition(216, 240);
+3.在cretor面板中，将prefab拖入对应的脚本
+```
 
 ### bmFont使用方法
 ```
