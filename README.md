@@ -43,6 +43,27 @@
 3.在cretor面板中，将prefab拖入对应的脚本
 ```
 
+### 用代码加载图片
+```
+目录结构
+-- assets
+  -- resources
+    -- sword
+      -- sword_stay1.png
+      -- sword_stay2.png
+      -- sword_stay3.png
+1.用cc.loader
+        cc.loader.loadRes("sword/sword_stay1", cc.SpriteFrame, function(err, spriteFrame) {
+            // self.node.getComponent(cc.Sprite).
+            sp.spriteFrame = spriteFrame;
+        })
+
+2.用cc.url.raw
+        sp.spriteFrame = new cc.SpriteFrame(cc.url.raw("resources/sword/sword_stay1.png"));
+        
+3.cc.resources.load(creator 2.3.1 用不了，会报错invoking function failed,暂时没找到原因)
+```
+
 ### 画菱形
 
 ```
