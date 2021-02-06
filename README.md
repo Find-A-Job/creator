@@ -64,6 +64,48 @@
 3.cc.resources.load(creator 2.3.1 用不了，会报错invoking function failed,暂时没找到原因)
 ```
 
+### 创建节点-绑定动画
+```
+        let that = this
+        let oriSize = cc.size(32, 32)
+        let scale = 3
+        let desSize = that.sizeMultiplication(oriSize, scale)
+        let heroAnchor = cc.v2(0.5, 0)
+        let defPos = cc.v2(desSize.width * 2.5 / 2, desSize.height * 0)
+        let stayAniSpeed = 1.5
+        let heroName = ""
+        let spritePath = "q1/q_05"
+
+        var node = new cc.Node(heroName);
+        node.width = desSize.width
+        node.height = desSize.height
+        node.setAnchorPoint(heroAnchor)
+        node.setPosition(defPos)
+        var sp = node.addComponent(cc.Sprite);
+        sp.type = cc.Sprite.Type.SIMPLE
+        sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        sp.trim = false
+        node.parent = this.herosLayout;
+
+        // 绑定动画
+        var animation = node.addComponent(cc.Animation);
+
+        /* 添加SpriteFrame到frames数组 */
+        var frames = [];
+        frames[0] = new cc.SpriteFrame(cc.url.raw('resources/sword/sword_stay1.png'));
+        frames[1] = new cc.SpriteFrame(cc.url.raw('resources/sword/sword_stay2.png'));
+        frames[2] = new cc.SpriteFrame(cc.url.raw('resources/sword/sword_stay3.png'));
+
+        var clip = cc.AnimationClip.createWithSpriteFrames(frames, 3);
+        clip.name = 'anim_boom';
+        clip.wrapMode = cc.WrapMode.PingPongReverse;//乒乓反转
+
+        clip.speed = stayAniSpeed // 倍速播放，默认值为1，数值越大播放速度越快,0停止播放,负值也可以，效果等同于其绝对值（1==-1）
+
+        animation.addClip(clip);
+        animation.play('anim_boom');
+```
+
 ### 画菱形
 
 ```
