@@ -246,7 +246,8 @@
 ~将sprite的sizeMode设置为raw后，节点大小会随着序列帧图片的尺寸不同而改变。但是序列帧的原始尺寸不是我想要的尺寸，我需要先将这个尺寸放大n倍，然后再设置为动画。~<br>
 解决方法:<br>
 1. ~SizeProvider ~
-2. 直接覆盖node的setContentSize方法。由此可见，raw属性其实就是不断改变node的size<br> 
+2. 通过监听SIZE_CHANGED事件`node.on(cc.Node.EventType.SIZE_CHANGED, node.sizeChange, this);`<br>
+我猜测raw属性其实就是不断改变node的size，所以我直接覆盖node的setContentSize方法。完美解决<br> 
 ```
         node.setContentSize = (size) => {
             cc.log(`set size, ${arguments.length}, ${size}`)
