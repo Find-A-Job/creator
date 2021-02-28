@@ -205,7 +205,7 @@
 问题：动画帧被合并在图集中，手动分离很费力<br>
 解决方案：用golang写了一个操作图片的程序，可以将非透明图片转换为带透明度的图片，将图集分离为多个单张图片，颜色替换<br>
 3. 目标：制作序列帧动画（序列帧动画中的图片尺寸不一定相同）<br>
-问题：
+问题：<br>
 ```
             ...
             var sp = node.addComponent(cc.Sprite);
@@ -243,4 +243,14 @@
 这样设置完后，节点尺寸就可以随着序列帧图片的尺寸不同而改变<br>
 但是我想将原图先放大n倍<br>
 是否能直接修改图片资源的orisize，使其可以作用于raw属性<br>
-~将sprite的sizeMode设置为raw后，节点大小会随着序列帧图片的尺寸不同而改变。但是序列帧的原始尺寸不是我想要的尺寸，我需要先将这个尺寸放大n倍，然后再设置为动画。~
+~将sprite的sizeMode设置为raw后，节点大小会随着序列帧图片的尺寸不同而改变。但是序列帧的原始尺寸不是我想要的尺寸，我需要先将这个尺寸放大n倍，然后再设置为动画。~<br>
+解决方法:<br>
+1. ~SizeProvider ~
+2. 直接覆盖node的setContentSize方法。由此可见，raw属性其实就是不断改变node的size<br> 
+```
+        node.setContentSize = (size) => {
+            cc.log(`set size, ${arguments.length}, ${size}`)
+            node.width = size.width * dc
+            node.height = size.height * dc
+        }
+```
