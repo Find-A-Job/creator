@@ -128,7 +128,7 @@
         }
 ```
 <details>
-  <summary>图解</summary>    
+  <summary>图解(点击左侧小三角可以展开示意图)</summary>    
     
             /* 横坐标为i，纵坐标为j，tStep为3
             * 0  1  2  3  4  5  6
@@ -204,3 +204,43 @@
 2. 目标：分离图片资源<br>
 问题：动画帧被合并在图集中，手动分离很费力<br>
 解决方案：用golang写了一个操作图片的程序，可以将非透明图片转换为带透明度的图片，将图集分离为多个单张图片，颜色替换<br>
+3. 目标：制作序列帧动画（序列帧动画中的图片尺寸不一定相同）<br>
+问题：
+```
+            ...
+            var sp = node.addComponent(cc.Sprite);
+            sp.type = cc.Sprite.Type.SIMPLE
+            sp.sizeMode = cc.Sprite.SizeMode.RAW;
+            // sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+            sp.trim = false
+            ...
+            let animation = node.addComponent(cc.Animation);
+            // asstes是一个数组序列帧动画需要的所有spriteframe资源
+            // enums.Ca是一个map，包含从name到index的映射
+            for (let ani = 0; ani < assets.length; ani++) {
+                const an = assets[ani];
+                let info = an.name.match(/([a-z]+|\d+)/g)
+                let clipInd = (info[0] + '').toUpperCase()
+                let clip = clips[enums.Ca[clipInd]]
+                if (!('frames' in clip)) {
+                    clip.frames = new Array(clip.sample)
+                }
+                let frameInd = parseInt(info[1]) - 1
+                // ！！！！！！！！
+                // how to modify an's prop to make it
+                clip.frames[frameInd] = an
+            }
+            // clips是一个数组，里面存放着每个动画所需要的信息，包括frames，sample，type，wrapMode，speed
+            for (let iteInd = 0; iteInd < clips.length; iteInd++) {
+                let ite = clips[iteInd]
+                let clip = cc.AnimationClip.createWithSpriteFrames(ite.frames, ite.sample);
+                clip.name = ite.type;
+                clip.wrapMode = ite.wrapMode;
+                clip.speed = ite.speed; // 倍速播放，默认值为1，数值越大播放速度越快,0停止播放,负值也可以，效果等同于其绝对值（1==-1）
+                animation.addClip(clip);
+            }
+```
+这样设置完后，节点尺寸就可以随着序列帧图片的尺寸不同而改变<br>
+但是我想将原图先放大n倍<br>
+是否能直接修改图片资源的orisize，使其可以作用于raw属性<br>
+~将sprite的sizeMode设置为raw后，节点大小会随着序列帧图片的尺寸不同而改变。但是序列帧的原始尺寸不是我想要的尺寸，我需要先将这个尺寸放大n倍，然后再设置为动画。~
