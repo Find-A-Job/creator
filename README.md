@@ -3,6 +3,16 @@
 
 ### 零散的记录
 1. `cc.loader.loadResDir` 这个函数有一个回调参数，如果回调函数执行失败，则会一直尝试重新执行回调函数
+2. 代码设置九宫格拉伸范围<br>
+```
+                let sp=this.getConponent(cc.Sprite)
+                sp.type = cc.Sprite.Type.SLICED
+                bib=sp.spriteFrame
+                bib.insetTop = 4
+                bib.insetBottom = 5
+                bib.insetLeft = 4
+                bib.insetRight = 5
+```
 
 ### js
 
