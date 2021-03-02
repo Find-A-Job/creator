@@ -265,3 +265,4 @@
             node.height = size.height * dc
         }
 ```
+4.有一份原图，现在需要放大x倍后作为九宫格使用
