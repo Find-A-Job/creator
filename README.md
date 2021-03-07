@@ -25,6 +25,7 @@
 4. 层级管理器中的节点会执行onload、start等生命回调函数，但是将该节点修改为预制体并使用cc.initiate实例化后，则不会执行，所以实例化后需要自己调用初始化相关数据<br>
 5. 层级管理器中有一个节点NodeA,它上面挂载着一个脚本jsA，在脚本B中的start中有设置this.abc=0，且有一个和start同级的函数funcA,里面有使用this.abc。层级管理器中有另外一个节点NodeB，挂载着脚本jsB,且该脚本的属性检查器中挂载着节点NodeA。此时在jsB中使用this.NodeA.getComponent('jsA').funcA(),这时在funcA中this并不是之前的this，所以也就找不到this.abc。所以在jsA的开头let xxx =cc.Class({}),然后在start里设置xxx.ins=this,并在funcA中调用xxx.ins就可以等同于理想情况下的this<br>
 6. `把addChild的操作放到setColor后面就可以改变颜色了，先addChild再改变颜色就没有效果`，用代码增加节点时，先设置完属性，再设置父节点<br>
+7. 添加子节点失败，节点A下有个节点B和节点C，B·C同名，但B在属性检查器中将显示的勾取消了，也就是说B不可见。这时想将实例化后的预制体pA作为子节点加入节点C下,而使用A节点查找子节点C(用getChildByName)，这时查找到的不是C（因为加入(A.getChildByName(）.addChild())后pA不可见），然后将B改名，再次执行，pA成功显示<br>
 ### js
 
 ```
