@@ -23,6 +23,7 @@
 上面都是欲言又止没想明白该怎么表达<br>
 总之就是如果发现修改数值后没反应，就重新拖放一下<br>
 4. 层级管理器中的节点会执行onload、start等生命回调函数，但是将该节点修改为预制体并使用cc.initiate实例化后，则不会执行，所以实例化后需要自己调用初始化相关数据<br>
+5. 层级管理器中有一个节点NodeA,它上面挂载着一个脚本jsA，在脚本B中的start中有设置this.abc=0，且有一个和start同级的函数funcA,里面有使用this.abc。层级管理器中有另外一个节点NodeB，挂载着脚本jsB,且该脚本的属性检查器中挂载着节点NodeA。此时在jsB中使用this.NodeA.getComponent('jsA').funcA(),这时在funcA中this并不是之前的this，所以也就找不到this.abc。所以在jsA的开头let xxx =cc.Class({}),然后在start里设置xxx.ins=this,并在funcA中调用xxx.ins就可以等同于理想情况下的this
 ### js
 
 ```
@@ -84,7 +85,7 @@
 2.用cc.url.raw，用这个方法加载的图片能做的操作有限，比如无法获取图片宽高，无法翻转图片，若需要使用这些功能，请使用cc.loader
         sp.spriteFrame = new cc.SpriteFrame(cc.url.raw("resources/sword/sword_stay1.png"));
         
-3.cc.resources.load(creator 2.3.1 用不了，会报错invoking function failed,暂时没找到原因)
+3.cc.resources.load(creator 2.3.1 用不了，会报错invoking function failed,暂时没找到原因)// 版本不对
 ```
 
 ### 创建节点-绑定动画
