@@ -28,6 +28,28 @@
 7. 添加子节点失败，节点A下有个节点B和节点C，B·C同名，但B在属性检查器中将显示的勾取消了，也就是说B不可见。这时想将实例化后的预制体pA作为子节点加入节点C下,而使用A节点查找子节点C(用getChildByName)，这时查找到的不是C（因为加入(A.getChildByName(）.addChild())后pA不可见），然后将B改名，再次执行，pA成功显示<br>
 8. 跟4有关。cc.initiate实例化后，并不会执行onload等函数，而直接获取层级管理器中的节点时，也不一定会执行onload函数。比如在onload里设置了数据，然后有一个脚本获取到该节点，并执行该节点上的另一个函数，那么这个函数里可能读取不到在onload里设置的数据<br>
 9. 如果节点所需要的所有图片资源需要放大x倍，那么可以考虑设置父节点的scale为x，而不是修改size，修改父节点的scale后，所有子节点就会自动放大。这个父节点最好是固定不动的！！！。如果设置了scale的这个父节点A需要进行移动操作，那么可以给A添加一个父节点B，设置B的scale，然后把A的scale恢复为1<br>
+10. 代码创建一个纯色节点。先创建一个空节点，并添加一个纯白图片，然后只需要修改节点颜色即可<br>
+```
+            let color=[xxx, xxx, xxx]
+            let realPos = cc.v2(xxx, xxx)
+
+            let node = new cc.Node('');
+            node.setAnchorPoint(cc.v2(0, 0));
+            node.setContentSize(cc.size(16, 16));
+            node.setPosition(realPos);
+            node.color = cc.color(...color)
+
+            // 设置纯色图片
+            let texture = new cc.Texture2D;
+            let spriteFrame = new cc.SpriteFrame;
+            let u8a = new Uint8Array([255, 255, 255])
+            texture.initWithData(u8a, cc.Texture2D.PixelFormat.RGB888, 1, 1);
+            spriteFrame.setTexture(texture);
+            spriteFrame.setRect(cc.rect(0, 0, 16, 16));
+            node.addComponent(cc.Sprite).spriteFrame = spriteFrame;
+
+            node.setParent(parent);
+```
 ### js
 
 ```
