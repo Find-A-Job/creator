@@ -51,7 +51,7 @@
             node.setParent(parent);
 ```
 11. 展示寻路算法的实时数据时，可以先将数据记录，再另外开个计时器显示。循环里不能设置延时
-12. 制作动画clip时，如果有多个动画clip，假设所有clip都添加了spriteframe，且其中一个clipA加了一个scalex属性，则其余所有clip都应该加上这个属性，否则切换动画时(从clipA切换到其他clip)，会被这个属性影响
+12. 制作动画clip时，如果有多个动画clip，假设所有clip都添加了spriteframe，且其中一个clipA加了一个scalex属性，则其余所有clip都应该加上这个属性，否则切换动画时(从clipA切换到其他clip)，会被这个属性影响<br>
 ### js
 
 ```
@@ -77,6 +77,38 @@
    let s=cc.winSize
    s.width and s.height
   ```
+### 用自定义class作为属性值
+```
+let CellsPF = cc.Class({
+    name: 'CellsPF',
+    properties: {
+        attack: {
+            type: cc.Prefab,
+            default: null,
+        },
+        move: {
+            type: cc.Prefab,
+            default: null,
+        },
+        wand: {
+            // 杖
+            type: cc.Prefab,
+            default: null,
+        },
+    }
+});
+cc.Class({
+    extends: cc.Component,
+    properties: {
+        cells: {
+            type: CellsPF,
+            default: function() { return new CellsPF() },
+            // 设置合法的值，参考https://docs.cocos.com/creator/manual/zh/scripting/reference/class.html#deferred-definition
+            // 另外不能用箭头表达式
+        },
+    },
+    });
+```
   
 ### 预制节点prefab
 ```
