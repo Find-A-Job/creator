@@ -23,7 +23,7 @@
 上面都是欲言又止没想明白该怎么表达<br>
 总之就是如果发现修改数值后没反应，就重新拖放一下<br>
 4. 层级管理器中的节点会执行onload、start等生命回调函数，但是将该节点修改为预制体并使用cc.initiate实例化后，则不会执行，所以实例化后需要自己调用初始化相关数据<br>
-5. 层级管理器中有一个节点NodeA,它上面挂载着一个脚本jsA，在脚本B中的start中有设置this.abc=0，且有一个和start同级的函数funcA,里面有使用this.abc。层级管理器中有另外一个节点NodeB，挂载着脚本jsB,且该脚本的属性检查器中挂载着节点NodeA。此时在jsB中使用this.NodeA.getComponent('jsA').funcA(),这时在funcA中this并不是之前的this，所以也就找不到this.abc。所以在jsA的开头let xxx =cc.Class({}),然后在start里设置xxx.ins=this,并在funcA中调用xxx.ins就可以等同于理想情况下的this<br>
+5. 层级管理器中有一个节点NodeA,它上面挂载着一个脚本jsA，在脚本B中的start中有设置this.abc=0，且有一个和start同级的函数funcA,里面有使用this.abc。层级管理器中有另外一个节点NodeB，挂载着脚本jsB,且该脚本的属性检查器中挂载着节点NodeA。此时在jsB中使用`this.NodeA.getComponent('jsA').funcA()`,这时在funcA中this并不是之前的this，所以也就找不到this.abc。所以在jsA的开头`let xxx =cc.Class({})`,然后在start里设置`xxx.ins=this`,并在funcA中调用xxx.ins就可以等同于理想情况下的this<br>
 6. `把addChild的操作放到setColor后面就可以改变颜色了，先addChild再改变颜色就没有效果`，用代码增加节点时，先设置完属性，再设置父节点<br>
 7. 添加子节点失败，节点A下有个节点B和节点C，B·C同名，但B在属性检查器中将显示的勾取消了，也就是说B不可见。这时想将实例化后的预制体pA作为子节点加入节点C下,而使用A节点查找子节点C(用getChildByName)，这时查找到的不是C（因为加入(A.getChildByName(）.addChild())后pA不可见），然后将B改名，再次执行，pA成功显示<br>
 8. 跟4有关。cc.initiate实例化后，并不会执行onload等函数，而直接获取层级管理器中的节点时，也不一定会执行onload函数。比如在onload里设置了数据，然后有一个脚本获取到该节点，并执行该节点上的另一个函数，那么这个函数里可能读取不到在onload里设置的数据<br>
@@ -52,6 +52,45 @@
 ```
 11. 展示寻路算法的实时数据时，可以先将数据记录，再另外开个计时器显示。循环里不能设置延时
 12. 制作动画clip时，如果有多个动画clip，假设所有clip都添加了spriteframe，且其中一个clipA加了一个scalex属性，则其余所有clip都应该加上这个属性，否则切换动画时(从clipA切换到其他clip)，会被这个属性影响<br>
+13. 把`语句1`放到`pos-1`且`语句2`取消注释时调用`createPrefab`就会出问题（不显示，或只显示一部分），<br>
+把`语句1`放在`pos-2`且`语句2`注释就没问题<br>
+``` 
+  init(){
+        // cells 对象池
+        this.prefablPool = new Object()
+        let poolTypes = ['attack', 'move', 'wand'];
+        for (let i = 0; i < poolTypes.length; i++) {
+            const type = poolTypes[i];
+            if (this.cells[type] === null) {
+                continue;
+            }
+            this.prefablPool[type] = new cc.NodePool();
+            for (let i = 0; i < 40; ++i) {
+                let pbIns = cc.instantiate(this.cells[type]); // 创建节点
+                pbIns.pbType = type;
+                // pbIns.parent = this.node;// 语句2
+                this.prefablPool[type].put(pbIns); // 通过 put 接口放入对象池
+            }
+        }
+    }
+    // 对象池
+    createPrefab(type, pos) {
+        let pb = null;
+        if (this.prefablPool[type].size() > 0) { // 通过 size 接口判断对象池中是否有空闲的对象
+            pb = this.prefablPool[type].get();
+        } else { // 如果没有空闲对象，也就是对象池中备用对象不够时，我们就用 cc.instantiate 重新创建
+            pb = cc.instantiate(this.cells[type]);
+            pb.fpType = type;
+            // pos-1
+        }
+        // pos-2
+        pb.parent = this.node;// 语句1
+        pb.relativePos = pos;
+        let realPos = cc.v2((pos.x + 0.5) * this.tileSize.width, pos.y * this.tileSize.height)
+        pb.setPosition(realPos);
+        return pb
+    },
+```
 ### js
 
 ```
