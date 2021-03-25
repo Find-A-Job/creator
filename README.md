@@ -116,6 +116,34 @@
    let s=cc.winSize
    s.width and s.height
   ```
+  
+### map 匿名对象不可做键值
+```
+case1:
+            let ta = { x: 0, y: 0 }
+            let test = new Map([
+                [ta, 'value'],
+            ])
+            let val = test.get(ta);
+            cc.log(`val=${val}`)
+            // 输出`val=value`
+case2:
+            // let ta = { x: 0, y: 0 }
+            let test = new Map([
+                [{ x: 0, y: 0 }, 'value'],
+            ])
+            let val = test.get({ x: 0, y: 0 });
+            cc.log(`val=${val}`)
+            // 输出`val=undefined`
+case3:
+            let ta = { x: 0, y: 0 }
+            let test = new Map([
+                [{ x: 0, y: 0 }, 'value'],
+            ])
+            let val = test.get(ta);
+            cc.log(`val=${val}`)
+            // 输出`val=undefined`
+```
 ### 用自定义class作为属性值
 ```
 let CellsPF = cc.Class({
