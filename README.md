@@ -91,6 +91,56 @@
         return pb
     },
 ```
+14.多个同类型节点的动画同步<br>
+15.<details>
+  <summary>图解(点击左侧小三角可以展开示意图)</summary>   
+  
+      syncPlay() {
+        let getSp = new Map([
+            ['stay0', this.spriteStay[0]],
+            ['stay1', this.spriteStay[1]],
+            ['stay2', this.spriteStay[2]],
+            ['stay3', this.spriteStay[2]],
+            ['stay4', this.spriteStay[1]],
+            ['stay5', this.spriteStay[0]],
+
+            ['used0', this.spriteUsed[0]],
+            ['used1', this.spriteUsed[1]],
+            ['used2', this.spriteUsed[2]],
+            ['used3', this.spriteUsed[2]],
+            ['used4', this.spriteUsed[1]],
+            ['used5', this.spriteUsed[0]],
+        ]);
+        let sp = this.node.getComponent(cc.Sprite)
+        sp.spriteFrame = getSp.get(`${this.state}${this.curFrame}`);
+    },
+
+    update(dt) {
+        if (this.state != 'stay' && this.state != 'used') {
+            return;
+        }
+        let date = new Date();
+        let time = date.getTime();
+        let seconds = time % 1000;
+        let space = Math.ceil(1000 / 6);
+
+        let calcCurFrame = Math.floor(seconds / space);
+        if (calcCurFrame === this.curFrame) {
+            return;
+        }
+
+        if (this.curFrame != -1) {
+            if (calcCurFrame != (this.curFrame + 1) % 6) {
+                this.errTimes += 1;
+                cc.log(`errTimes+1:${this.errTimes}, curFrame:${this.curFrame}, calcCurFrame:${calcCurFrame}`);
+                // 这里并不做错误处理，因为每一帧都是同步的，只不过在某个时刻不连贯
+            }
+        }
+        this.curFrame = calcCurFrame;
+        this.syncPlay();
+    },
+</details>
+
 ### js
 
 ```
