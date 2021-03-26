@@ -54,7 +54,9 @@
 12. 制作动画clip时，如果有多个动画clip，假设所有clip都添加了spriteframe，且其中一个clipA加了一个scalex属性，则其余所有clip都应该加上这个属性，否则切换动画时(从clipA切换到其他clip)，会被这个属性影响<br>
 13. 把`语句1`放到`pos-1`且`语句2`取消注释时调用`createPrefab`就会出问题（不显示，或只显示一部分），<br>
 把`语句1`放在`pos-2`且`语句2`注释就没问题<br>
-``` 
+<details>
+  <summary>代码部分(点击左侧小三角可以展开示意图)</summary>  
+  
   init(){
         // cells 对象池
         this.prefablPool = new Object()
@@ -90,10 +92,11 @@
         pb.setPosition(realPos);
         return pb
     },
-```
+</details>
+
 14.多个同类型节点的动画同步<br>
-15.<details>
-  <summary>图解(点击左侧小三角可以展开示意图)</summary>   
+<details>
+  <summary>代码部分(点击左侧小三角可以展开示意图)</summary>   
   
       syncPlay() {
         let getSp = new Map([
