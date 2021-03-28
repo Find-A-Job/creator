@@ -145,6 +145,15 @@
 </details>
 
 15.跟5有关系。`let xxx =cc.Class({})`，`xxx.ins=this`这时就相当于静态变量，如果这个class被创建多次，那么`xxx.ins`总指向最后一次创建的对象，而不是指向自己。想要避免this调用的问题，就使用箭头函数<br>
+16.更改z序。假设cn获取到4，那么将节点1`setSiblingIndex`设置完后，节点1`getSiblingIndex`获取到的是3，如果节点2再调用`setSiblingIndex`，那么节点1的`SiblingIndex`会变成了2，节点2的`SiblingIndex`会变成3<br>
+<details>
+  <summary>代码部分(点击左侧小三角可以展开示意图)</summary> 
+  
+        let cn = this.armyLayer.children.length;
+        this.arrowsLayer.setSiblingIndex(cn);
+        army.node.setSiblingIndex(cn);
+</details>
+
 ### js
 
 ```
