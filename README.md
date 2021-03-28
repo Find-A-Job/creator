@@ -150,8 +150,11 @@
   <summary>代码部分(点击左侧小三角可以展开示意图)</summary> 
   
         let cn = this.armyLayer.children.length;
+        cc.log(`${cn}`);//输出4
         this.arrowsLayer.setSiblingIndex(cn);
+        cc.log(`${this.arrowsLayer.getSiblingIndex()}`);//输出3
         army.node.setSiblingIndex(cn);
+        cc.log(`${army.node.getSiblingIndex()}, ${this.arrowsLayer.getSiblingIndex()}`);//输出3,2
 </details>
 
 ### js
