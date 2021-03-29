@@ -29,7 +29,9 @@
 8. 跟4有关。cc.initiate实例化后，并不会执行onload等函数，而直接获取层级管理器中的节点时，也不一定会执行onload函数。比如在onload里设置了数据，然后有一个脚本获取到该节点，并执行该节点上的另一个函数，那么这个函数里可能读取不到在onload里设置的数据<br>
 9. 如果节点所需要的所有图片资源需要放大x倍，那么可以考虑设置父节点的scale为x，而不是修改size，修改父节点的scale后，所有子节点就会自动放大。这个父节点最好是固定不动的！！！。如果设置了scale的这个父节点A需要进行移动操作，那么可以给A添加一个父节点B，设置B的scale，然后把A的scale恢复为1<br>
 10. 代码创建一个纯色节点。先创建一个空节点，并添加一个纯白图片，然后只需要修改节点颜色即可<br>
-```
+<details>
+  <summary>代码部分(点击左侧小三角可以展开)</summary> 
+  
             let color=[xxx, xxx, xxx]
             let realPos = cc.v2(xxx, xxx)
 
@@ -49,14 +51,16 @@
             node.addComponent(cc.Sprite).spriteFrame = spriteFrame;
 
             node.setParent(parent);
-```
+</details>
+
 11. 展示寻路算法的实时数据时，可以先将数据记录，再另外开个计时器显示。循环里不能设置延时
 12. 制作动画clip时，如果有多个动画clip，假设所有clip都添加了spriteframe，且其中一个clipA加了一个scalex属性，则其余所有clip都应该加上这个属性，否则切换动画时(从clipA切换到其他clip)，会被这个属性影响<br>
 13. 把`语句1`放到`pos-1`且`语句2`取消注释时调用`createPrefab`就会出问题（不显示，或只显示一部分），<br>
 把`语句1`放在`pos-2`且`语句2`注释就没问题<br>
 <details>
-  <summary>代码部分(点击左侧小三角可以展开示意图)</summary>  
+  <summary>代码部分(点击左侧小三角可以展开)</summary>
   
+```
   init(){
         // cells 对象池
         this.prefablPool = new Object()
@@ -92,11 +96,13 @@
         pb.setPosition(realPos);
         return pb
     },
+  ```
 </details>
+
 
 14.多个同类型节点的动画同步<br>
 <details>
-  <summary>代码部分(点击左侧小三角可以展开示意图)</summary>   
+  <summary>代码部分(点击左侧小三角可以展开)</summary>   
   
       syncPlay() {
         let getSp = new Map([
@@ -147,7 +153,7 @@
 15.跟5有关系。`let xxx =cc.Class({})`，`xxx.ins=this`这时就相当于静态变量，如果这个class被创建多次，那么`xxx.ins`总指向最后一次创建的对象，而不是指向自己。想要避免this调用的问题，就使用箭头函数<br>
 16.更改z序。假设cn获取到4，那么将节点1`setSiblingIndex`设置完后，节点1`getSiblingIndex`获取到的是3，如果节点2再调用`setSiblingIndex`，那么节点1的`SiblingIndex`会变成了2，节点2的`SiblingIndex`会变成3<br>
 <details>
-  <summary>代码部分(点击左侧小三角可以展开示意图)</summary> 
+  <summary>代码部分(点击左侧小三角可以展开)</summary> 
   
         let cn = this.armyLayer.children.length;
         cc.log(`${cn}`);//输出4
