@@ -163,6 +163,8 @@
         cc.log(`${army.node.getSiblingIndex()}, ${this.arrowsLayer.getSiblingIndex()}`);//输出3,2
 </details>
 
+17.`_randerFlag of null`,有同名函数导致的<br>
+
 ### js
 
 ```
