@@ -164,6 +164,7 @@
 </details>
 
 17.`_randerFlag of null`,有同名函数导致的<br>
+18.`cto`r会在`new`一个对象的时候调用。先避免使用吧，有些奇怪的问题，感觉跟`cc.instantiate有关`，暂时搞不懂，以后去详细了解一下机制<br>
 
 ### js
 
