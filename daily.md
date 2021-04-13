@@ -8,3 +8,32 @@
 2.army的行走动画不够细腻，帧动画不够流畅连贯<br>
 3.cell加上动画效果（光影掠过）<br>
 4.字体太大，需要修改（目前如果修改很小，会模糊）<br>
+
+
+### 心得
+1.返回值尽量不要是null，应该返回特定值，比如正常情况下返回一个对象，那么异常情况下则应该返回一个设置了默认值的对象。
+```
+// 有这么一个对象
+p:{x:number, y:number};
+// 有这么一个函数
+let funcA=(a)=>{
+  if (a){
+    return new p(1, 2);
+  }
+  return null;
+}
+// 当返回对象时正常运行，返回null时会报错，为了避免报错就需要先判断函数返回值是否为空
+let m=3-funcA(true).x;// 没有问题
+let m2=3-funcA(false).x;// 报错
+
+// 改进后
+let funcA=(a)=>{
+  if (a){
+    return new p(1, 2);
+  }
+  return new p(0, 0);
+}
+// 这样就不需要判断是否为null的问题了
+let m=3-funcA(true).x;// 没有问题
+let m2=3-funcA(false).x;// 没有问题
+```
