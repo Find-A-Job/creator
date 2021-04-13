@@ -166,6 +166,7 @@
 17.`_randerFlag of null`,有同名函数导致的<br>
 18.`ctor`会在`new`一个对象的时候调用。先避免使用吧，有些奇怪的问题，感觉跟`cc.instantiate有关`，暂时搞不懂，以后去详细了解一下机制<br>
 19.`labeloutline`在浏览器和模拟器中的表现不一样，在浏览器中表现正常，在模拟器中几乎不明显(设置多大都一样)<br>
+20.js中如果有这么一个调用`obj.obj1.getObj2().obj3.obj4`,如何保证obj,obj1,obj3,obj4以及函数getObj2()不为空呢?除了挨个判断和trycatch之外<br>
 
 ### js
 
