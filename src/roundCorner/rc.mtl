@@ -1,0 +1,21 @@
+{
+  "__type__": "cc.Material",
+  "_name": "rc",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "5dfbd8d4-d224-4a4e-99a7-076cf1fef784"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true,
+        "USE_EDGE": true
+      },
+      "props": {
+        "edge": 0
+      }
+    }
+  }
+}
