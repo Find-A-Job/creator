@@ -168,6 +168,20 @@
 19.`labeloutline`在浏览器和模拟器中的表现不一样，在浏览器中表现正常，在模拟器中几乎不明显(设置多大都一样)<br>
 20.js中如果有这么一个调用`obj.obj1.getObj2().obj3.obj4`,如何保证obj,obj1,obj3,obj4以及函数getObj2()不为空呢?除了挨个判断和trycatch之外<br>
 21.widget挂件总是会调整自身位置(如果有设置的话),比如一个设置了顶部0px对齐的layout节点(锚点(0, 0))，在往layout里添加节点后，节点尺寸发生变化，widget就发挥作用了，会调整节点位置。<br>
+22.如果从dashboard中导入项目时没反应，有可能是`asset`和`project.json`出了问题。<br>
+其中`project.json`的格式应该为
+```
+{
+  "engine": "cocos-creator-js",
+  "packages": "packages",
+  "name": "catGame",
+  "id": "78e261cf-b0ad-488a-a2bb-507a69d02a41",
+  "version": "2.4.3",
+  "isNew": false
+}
+```
+里面的id可以任意修改，只要不和现有id重复即可。如果文件形式跟这个不一样，那就是出错了。<br>
+如果打开修改该文件后的项目失败，出现`xxx uuid xxx`之类的提示，则把这个版本的编辑器删掉重新安装<br>
 
 ### js
 
